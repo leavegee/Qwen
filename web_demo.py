@@ -11,7 +11,7 @@ import gradio as gr
 import mdtex2html
 
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from transformers.generation import GenerationConfig
 
 
@@ -26,7 +26,7 @@ def _get_args():
 
     parser.add_argument("--share", action="store_true", default=False,
                         help="Create a publicly shareable link for the interface.")
-    parser.add_argument("--inbrowser", action="store_true", default=False,
+    parser.add_argument("--inbrowser", action="store_true", default=True,
                         help="Automatically launch the interface in a new tab on the default browser.")
     parser.add_argument("--server-port", type=int, default=8000,
                         help="Demo server port.")
@@ -47,9 +47,12 @@ def _load_model_tokenizer(args):
     else:
         device_map = "auto"
 
+    quantization_config = BitsAndBytesConfig(load_in_4bit=True)
+    
     model = AutoModelForCausalLM.from_pretrained(
         args.checkpoint_path,
         device_map=device_map,
+        quantization_config,
         trust_remote_code=True,
         resume_download=True,
     ).eval()
