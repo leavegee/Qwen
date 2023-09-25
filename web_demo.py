@@ -47,12 +47,11 @@ def _load_model_tokenizer(args):
     else:
         device_map = "auto"
 
-    quantization_config = BitsAndBytesConfig(load_in_4bit=True)
+
     
     model = AutoModelForCausalLM.from_pretrained(
         args.checkpoint_path,
         device_map=device_map,
-        quantization_config,
         trust_remote_code=True,
         resume_download=True,
     ).eval()
