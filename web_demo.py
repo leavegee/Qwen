@@ -15,7 +15,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from transformers.generation import GenerationConfig
 
 
-DEFAULT_CKPT_PATH = 'Qwen/Qwen-14B-Chat-Int4'
+DEFAULT_CKPT_PATH = 'Qwen/Qwen-7B-Chat-Int4'
 
 
 def _get_args():
